@@ -9,9 +9,15 @@ import { HiOutlineUsers } from "react-icons/hi";
 import KanbanBoard from "../components/kanbanBoard";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { Modal } from "../components/modal";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 export default function BoardPage() {
   const params = useSearchParams();
+
+  const dispatch = useAppDispatch();
+  const { login } = useAppSelector((state) => state.app);
+
+  console.log(login);
 
   const breadcrumbItems = [
     { label: "Workspace", path: "/" },
@@ -42,12 +48,21 @@ export default function BoardPage() {
       </div>
       <KanbanBoard />
       <div className="sticky bottom-10 right-[106px] float-right">
-        <button className="bg-[#306BFF] text-white font-bold text-[14px] rounded-full flex items-center p-4 justify-evenly w-[131px]" onClick={handleOpen}>
+        <button
+          className="bg-[#306BFF] text-white font-bold text-[14px] rounded-full flex items-center p-4 justify-evenly w-[131px]"
+          onClick={handleOpen}
+        >
           {" "}
           <IoIosAddCircleOutline size={18} color="#FFFFFF" /> New Task
         </button>
       </div>
-      <Modal open={isModalOpen} onClose={handleClose} title="Create New Task" actionName="Save" onAction={() => console.log("first")}>
+      <Modal
+        open={isModalOpen}
+        onClose={handleClose}
+        title="Create New Task"
+        actionName="Save"
+        onAction={() => console.log("first")}
+      >
         <p>This is creating task modal</p>
       </Modal>
     </>
