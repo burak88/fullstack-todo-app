@@ -25,7 +25,7 @@ An advanced **Todo Application** built with modern web technologies including **
 | **TypeScript**   | Type-safe JavaScript.                |
 
 ---
-📂 Project Structure
+## 📂 Project Structure
 ├── app/
 │   ├── layout.tsx         # Shared layout for all pages
 │   ├── page.tsx           # Main page
