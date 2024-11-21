@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "../components/breadCrumb";
 import { useSearchParams } from "next/navigation";
 import { CiStar } from "react-icons/ci";
@@ -9,15 +9,11 @@ import { HiOutlineUsers } from "react-icons/hi";
 import KanbanBoard from "../components/kanbanBoard";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { Modal } from "../components/modal";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useQuery } from "@apollo/client";
+import { GET_POSTS } from "@/graphql/queries";
 
 export default function BoardPage() {
   const params = useSearchParams();
-
-  const dispatch = useAppDispatch();
-  const { login } = useAppSelector((state) => state.app);
-
-  console.log(login);
 
   const breadcrumbItems = [
     { label: "Workspace", path: "/" },
@@ -26,8 +22,11 @@ export default function BoardPage() {
   ];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpen = () => setIsModalOpen(true);
+  const handleOpen = () => {
+    setIsModalOpen(true);
+  };
   const handleClose = () => setIsModalOpen(false);
+  const { data, error, loading } = useQuery(GET_POSTS);
 
   return (
     <>
@@ -63,7 +62,7 @@ export default function BoardPage() {
         actionName="Save"
         onAction={() => console.log("first")}
       >
-        <p>This is creating task modal</p>
+        <p>deneme</p>
       </Modal>
     </>
   );

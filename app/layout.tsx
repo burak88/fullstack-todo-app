@@ -1,7 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import PublicLayout from "./components/layout";
-import { ReduxProvider } from "./StoreProvider";
+import { StoreProvider } from "./StoreProvider";
+import "react-toastify/dist/ReactToastify.min.css";
+import { Providers } from "./ApolloProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReduxProvider>
-          <PublicLayout>{children}</PublicLayout>
-        </ReduxProvider>
+        <Providers>
+          <StoreProvider>
+            <PublicLayout>{children}</PublicLayout>
+          </StoreProvider>
+        </Providers>
       </body>
     </html>
   );
