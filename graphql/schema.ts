@@ -18,7 +18,7 @@ type Workspace {
   id: ID!
   name: String!
   description: String
-  user: User!
+  userId: ID!
   todos: [Todo!]!
   categories: [Category!]!
   tags: [Tag!]!

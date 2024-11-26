@@ -22,7 +22,7 @@ model User {
 // Workspace'ler için model
 model Workspace {
   id          String    @id @default(uuid()) // UUID id
-  name        String    // Workspace adı
+  name        String    @unique // Workspace adı
   description String?   // Workspace açıklaması
   userId      String    // Workspace sahibi kullanıcı
   user        User      @relation(fields: [userId], references: [id])
