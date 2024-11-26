@@ -7,9 +7,69 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
-model Post {
-  id Int @id @default(autoincrement())
-  title String
-  content String
-  published Boolean 
+// Kullanıcılar için model
+model User {
+  id        String    @id @default(uuid()) // UUID id
+  email     String    @unique
+  password  String
+  name      String?
+  workspaces Workspace[] // Kullanıcının bağlı olduğu iş alanları
+  todos     Todo[]     // Kullanıcının görevleri
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// Workspace'ler için model
+model Workspace {
+  id          String    @id @default(uuid()) // UUID id
+  name        String    // Workspace adı
+  description String?   // Workspace açıklaması
+  userId      String    // Workspace sahibi kullanıcı
+  user        User      @relation(fields: [userId], references: [id])
+  todos       Todo[]    // Workspace içindeki görevler
+  categories  Category[] // Workspace içindeki kategoriler
+  tags        Tag[]     // Workspace içindeki etiketler
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Görevler için model
+model Todo {
+  id          String    @id @default(uuid()) // UUID id
+  title       String
+  description String?
+  completed   Boolean   @default(false)
+  priority    Int?      // Görev önceliği (1-5 gibi)
+  dueDate     DateTime?
+  userId      String    // Görevi oluşturan kullanıcı
+  user        User      @relation(fields: [userId], references: [id])
+  workspaceId String    // Görevin ait olduğu workspace
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  categoryId  String?   // UUID tipiyle ilişkilendirilmiş kategori id
+  category    Category? @relation(fields: [categoryId], references: [id])
+  tags        Tag[]     @relation("TodoTags")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Kategoriler için model
+model Category {
+  id          String    @id @default(uuid()) // UUID id
+  name        String    // Kategori adı
+  workspaceId String    // Kategorinin ait olduğu workspace
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  todos       Todo[]    // Bu kategoriye ait görevler
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Etiketler için model
+model Tag {
+  id          String    @id @default(uuid()) // UUID id
+  name        String    @unique
+  workspaceId String    // Etiketlerin ait olduğu workspace
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  todos       Todo[]    @relation("TodoTags")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Breadcrumb from "../components/breadCrumb";
 import { useSearchParams } from "next/navigation";
 import { CiStar } from "react-icons/ci";
@@ -9,8 +9,7 @@ import { HiOutlineUsers } from "react-icons/hi";
 import KanbanBoard from "../components/kanbanBoard";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { Modal } from "../components/modal";
-import { useQuery } from "@apollo/client";
-import { GET_POSTS } from "@/graphql/queries";
+import PublicLayout from "../components/layout";
 
 export default function BoardPage() {
   const params = useSearchParams();
@@ -26,44 +25,45 @@ export default function BoardPage() {
     setIsModalOpen(true);
   };
   const handleClose = () => setIsModalOpen(false);
-  const { data, error, loading } = useQuery(GET_POSTS);
 
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
-      <div className="flex items-end justify-between">
-        <p className="font-bold text-4xl mt-4">{params.get("workspace")}</p>
-        <div className="flex gap-2">
-          <button className="w-10 h-10 rounded-lg border-[#E2E8F0] border-2 flex justify-center items-center">
-            <PiLightningLight size={20} color="#1E293B" />{" "}
-          </button>
-          <button className="w-10 h-10 rounded-lg border-[#E2E8F0] border-2 flex justify-center items-center">
-            <CiStar size={20} color="#1E293B" />{" "}
-          </button>
-          <button className="w-[97px] h-10 rounded-lg border-[#E2E8F0] border-2 flex justify-evenly items-center">
-            <HiOutlineUsers size={20} color="#1E293B" /> Share
+      <PublicLayout>
+        <Breadcrumb items={breadcrumbItems} />
+        <div className="flex items-end justify-between">
+          <p className="font-bold text-4xl mt-4">{params.get("workspace")}</p>
+          <div className="flex gap-2">
+            <button className="w-10 h-10 rounded-lg border-[#E2E8F0] border-2 flex justify-center items-center">
+              <PiLightningLight size={20} color="#1E293B" />{" "}
+            </button>
+            <button className="w-10 h-10 rounded-lg border-[#E2E8F0] border-2 flex justify-center items-center">
+              <CiStar size={20} color="#1E293B" />{" "}
+            </button>
+            <button className="w-[97px] h-10 rounded-lg border-[#E2E8F0] border-2 flex justify-evenly items-center">
+              <HiOutlineUsers size={20} color="#1E293B" /> Share
+            </button>
+          </div>
+        </div>
+        <KanbanBoard />
+        <div className="sticky bottom-10 right-[106px] float-right">
+          <button
+            className="bg-[#306BFF] text-white font-bold text-[14px] rounded-full flex items-center p-4 justify-evenly w-[131px]"
+            onClick={handleOpen}
+          >
+            {" "}
+            <IoIosAddCircleOutline size={18} color="#FFFFFF" /> New Task
           </button>
         </div>
-      </div>
-      <KanbanBoard />
-      <div className="sticky bottom-10 right-[106px] float-right">
-        <button
-          className="bg-[#306BFF] text-white font-bold text-[14px] rounded-full flex items-center p-4 justify-evenly w-[131px]"
-          onClick={handleOpen}
+        <Modal
+          open={isModalOpen}
+          onClose={handleClose}
+          title="Create New Task"
+          actionName="Save"
+          onAction={() => console.log("first")}
         >
-          {" "}
-          <IoIosAddCircleOutline size={18} color="#FFFFFF" /> New Task
-        </button>
-      </div>
-      <Modal
-        open={isModalOpen}
-        onClose={handleClose}
-        title="Create New Task"
-        actionName="Save"
-        onAction={() => console.log("first")}
-      >
-        <p>deneme</p>
-      </Modal>
+          <p>deneme</p>
+        </Modal>
+      </PublicLayout>
     </>
   );
 }
