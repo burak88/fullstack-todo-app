@@ -22,6 +22,7 @@ An advanced **Todo Application** built with modern web technologies including **
 
 
 📂 Project Structure
+```
 ├── app/
 │   ├── layout.tsx         # Shared layout for all pages
 │   ├── page.tsx           # Main page
@@ -42,7 +43,7 @@ An advanced **Todo Application** built with modern web technologies including **
 ├── styles/
 │   └── globals.css        # Tailwind CSS global styles
 └── tsconfig.json          # TypeScript configuration
-
+```
 ## 🏗️ Installation
 Follow these steps to run the project locally:
 
